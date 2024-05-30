@@ -1,5 +1,5 @@
 # SnP500-EDA
-***
+
 The work presents the analysis of S&P500 companies using common metrics used by analysts. This analysis aims to relate all numerical metrics to S&P500's ***Recommendation Score*** (i.e., whether to buy to sell) and/or to its ranking based on ***Market Capitalisation***, to better understand the performance of each ***GISC Sectors***.
 
 The above was achieved as such:
@@ -8,18 +8,27 @@ The above was achieved as such:
 - Analysing the data by using target questions produced from exploratory data analysis.
 - Producing a conclusion of the insights gained and future work to expand on the work.
 
-## Step 1: Crawling Real-World Datasets
-***
+### Step 1: Crawling Real-World Datasets
+
 The dataset that is extracted is about S&P500 stocks. S&P500 is a common equity index which includes 500 of the largest companies listed on stock exchanges in the United States. 
 
 First, the table of S&P500 companies is scraped from Wikipedia's __[S&P500 Companies](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies)__ homepage. The columns of interest from this table are ***Symbol*** of the stock (e.g. AAPL for Apple Inc.), ***Security*** (i.e. the company name), ***Global Industry Classification Standard*** (GICS, i.e. field of work such as Tech, Finance, Healthcare etc) sector, and ***Headquarters Location***. 
 
-Second, common key features used in analysing stocks are scraped from __[Yahoo Finance](https://finance.yahoo.com/)__. The key features of interest are ***Market Capitalisation ***, ***Revenue***, ***Profit Margin***, ***Earning per Share***, ***Profit to Earnings ratio*** and ***Payout Ratio***. These features are scraped by taking the symbols from the table acquired from Wikipedia and using them to create a URL to the respective stock's statistics page (e.g. __https://finance.yahoo.com/quote/AAPL/key-statistics?p=AAPL__ for Apple Inc.) Additionally, a ***Recommendation Score***, ranging from 1 (strong buy) to 5 (strong sell), where 3 is hold, from analysts is also extracted from Yahoo Finance; however, this is achieved by yfinance API library.
+Second, common key features used in analysing stocks are scraped from __[Yahoo Finance](https://finance.yahoo.com/)__. The key features of interest are ***Market Capitalisation***, ***Revenue***, ***Profit Margin***, ***Earning per Share***, ***Profit to Earnings ratio*** and ***Payout Ratio***. These features are scraped by taking the symbols from the table acquired from Wikipedia and using them to create a URL to the respective stock's statistics page (e.g. __https://finance.yahoo.com/quote/AAPL/key-statistics?p=AAPL__ for Apple Inc.) Additionally, a ***Recommendation Score***, ranging from 1 (strong buy) to 5 (strong sell), where 3 is hold, from analysts is also extracted from Yahoo Finance; however, this is achieved by yfinance API library.
 
 The two tables are then merged and saved as `SnP500_raw_data.csv` in the directory of this jupyter notebook
 
-## Step 2: Data Preparation & Cleaning
-***
+
+#### *Note
+[yfinance](https://github.com/ranaroussi/yfinance) is an open source Python library built by Ran Aroussi. It is a code to fetch market data from Yahoo Finance's API. This library is used to fetch income statement values and Recommendation Scores from analysts for each stock.  
+
+To install `yfinance`, ensure you have a minimum of Python 3.4. Install `yfinance` using `pip`:
+```
+pip install yfinance
+```
+
+### Step 2: Data Preparation & Cleaning
+
 The following is performed sequentially to prepare the data for analysis:
 - Column headings are simplified where possible (e.g. ***Security*** is changed to ***Company***) to make it more understandable
 - Column ***Headquarters Location*** is split into two columns, ***HQ Country*** and ***HQ State/City***. This is because the initial column contains a mix of 'City,State,Country', 'State,Country' and 'City,Country'
@@ -31,8 +40,8 @@ The following is performed sequentially to prepare the data for analysis:
     4. Missing values in ***Recommendation score*** is filled with the mean value
     5. ***Price to Earnings ratio*** values have their units removed if any, values are rounded to 2 decimal places, and any incorrect values are corrected (i.e. where PE ratio doesn't share the same sign as EPS, as illustrated by the equation)
 
-## Step 3: Exploratory Data Analysis and Step 4: Investigating Data-Set with questions
-***
+### Step 3: Exploratory Data Analysis and Step 4: Investigating Data-Set with questions
+
 The process of EDA and investigating the data set with targeted questions is achieved as such:
 - Categorical columns are explored first:
     - Columns ***Symbol*** & ***Company***, by analysing the distribution of the number of characters in symbols and company names. This is followed by looking out for any outliers in symbols or company name
